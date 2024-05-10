@@ -1,17 +1,32 @@
-let firstCard = getRandomCard();
-let secondCard = getRandomCard();
-let cards = [firstCard, secondCard]; // ordered list of items
-let sum = firstCard + secondCard;
+let cards = []; // ordered list of items
+let sum = 0;
 
 let hasBlackJack = false;
-let isAlive = true;
+let isAlive = false;
 let message = "";
 
 let messageEl = document.getElementById("message-el");
 let sumEl = document.getElementById("sum-el");
 let cardsEl = document.getElementById("cards-el");
 
+let player = {
+    name: "Alina",
+    chips: 145,
+    sayHello: function() {
+        console.log("Hello!");
+    }
+}
+
+
+let playerEl = document.getElementById("player-el");
+playerEl.textContent = player.name + ": $" + player.chips;
+
 function startGame() {
+    let firstCard = getRandomCard();
+    let secondCard = getRandomCard();
+    cards = [firstCard, secondCard];
+    sum = firstCard + secondCard;
+    isAlive = true;
     renderGame();
 }
 function renderGame() {
@@ -34,13 +49,24 @@ function renderGame() {
 }
 
 function newCard() {
-    console.log("Drawing a new card from the deck!");
-    let card = getRandomCard();
-    cards.push(card); // add to the end of array
-    sum += card;
-    renderGame();
+    if(isAlive && !hasBlackJack) {
+        let card = getRandomCard();
+        cards.push(card); // add to the end of array
+        sum += card;
+        renderGame();
+    }
 }
 
 function getRandomCard() {
-    return 5;
+    let randomCard = Math.floor(Math.random() * 13) + 1;
+    if (randomCard === 1) {
+        randomCard = 11;
+    } else if(randomCard >= 11 && randomCard <= 13) {
+        randomCard = 10;
+    }
+    return randomCard;
 }
+
+// function rollDice() {
+//     return Math.floor(Math.random() * 6) + 1;
+// }
